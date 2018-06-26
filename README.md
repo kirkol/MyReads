@@ -10,7 +10,7 @@ What to do to run it?
 1. Inside the terminal put: npm install
 2. Inside the terminal put: npm start
 3. Use your book organizer
-
+ 
 /////
 
 TL DR below (for my usage:))
