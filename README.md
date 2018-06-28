@@ -1,4 +1,5 @@
-Added by Antonina :D
+It is one of projects from React Udacity nanodegree course.
+If you look for tips, motivation or you need a book organizer - be my guest :)
 
 What is it? It's a books organizer for your (or mine) usage.
 It consist of three types of shelf, where you can store your books.
