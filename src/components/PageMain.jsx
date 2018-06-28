@@ -6,21 +6,23 @@ import Bookshelf from './Bookshelf'
 class PageMain extends Component {
 
   render(){
-    const shelfs = this.props.shelfs;
-    console.log("RENDERUJE SIE PAGEMAIN", this.props.books)
+    const groupedBooks = this.props.groupedBooks
+    const shelfs = this.props.shelfs
+    console.log("MAIN PAGE AGAIN", groupedBooks)
 
     return(
       <div className="list-books">
         <Header />
         <div className="list-books-content">
-          <button onClick={this.props.funkcja}>KLIKNIJ</button>
           <div>
-            {this.props.shelfs.map((shelf) => (
-            	<Bookshelf
+            {Object.keys(groupedBooks).map((shelf) => (
+             	<Bookshelf 
                   key={shelf}
-                  shelfName={shelf}
                   shelfs={shelfs}
-                  groupedBooks={this.props.groupedBooks}/>
+                  shelfName={shelf}
+                  books={groupedBooks[shelf]}
+                  update={this.props.update}
+                />
             ))}
           </div>
         </div>

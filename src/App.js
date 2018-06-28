@@ -5,7 +5,7 @@ import {Route} from 'react-router-dom'
 import './App.css'
 import * as BooksAPI from './BooksAPI'
 
-const shelfs = ["Currently Reading", "Want to Read", "Read"]
+const shelfs = ["currentlyReading", "wantToRead", "read"]
 
 class BooksApp extends React.Component {
 
@@ -15,40 +15,32 @@ class BooksApp extends React.Component {
   }
 
 componentWillMount(){
+	this.getAll()
+}
+
+getAll(){
   BooksAPI.getAll()
-  .then((books) => {
-  const bookGouped = this.groupBooks(books)
-  this.setState(() => ({
+    .then((books) => {
+    const bookGouped = this.groupBooks(books)
+    this.setState(() => ({
     books: books,
     groupedBooks: bookGouped
   }))
   console.log("API",this.state);
-});
+  });
 }
 
-//funkcja = () => {
-//	this.setState({
-//      	books: {"dupa":"aaa"},
-//		groupedBooks: ["abc", "cde"]
-//	})
-//  console.log("NACISKAM FUNKCJE")
-//}
-
-componentWillUpdate(){
-	this.groupBooks(this.state.books)
-    const bookGouped = this.groupBooks(this.state.books)
-  	this.setState(() => ({
-    groupedBooks: bookGouped
-  }))
+update = (book, shelf) => {
+	BooksAPI.update(book, shelf)
+  	.then((res) => {
+      this.getAll()
+    })
 }
 
 groupBooks(books){
   if(books){
     let bookArray = {};
-    console.log(books)
-    console.log("ROBI SIE GROUPING")
     Object.keys(books).map((key) => {
-   		console.log(books[key])
       //jezeli bookArray ma juz taki klucz, to ksiazka (obiekt) zostanie dodana do ciagu ksiazek
       //jesli nie, to zostanie utworzony taki klucz z wartoscia tej ksiazki
       	if(bookArray.hasOwnProperty(books[key].shelf)){
@@ -65,18 +57,21 @@ groupBooks(books){
 }
 
 render() {
+  console.log("RENDERUJE APA!")
   return (
   <div className="app">
    <Route exact path='/' render={() => (
     <PageMain
     shelfs={shelfs}
-    books={this.state.books}
 	groupedBooks={this.state.groupedBooks}
-	funkcja={this.funkcja}
+	update={this.update}
     />
    )} />
    <Route path='/search' render={() => (
-   	<PageSearch />
+   	<PageSearch
+    shelfs={shelfs}
+    books={this.state.books}
+    />
    )} />
 </div>
 )}}
