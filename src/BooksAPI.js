@@ -30,7 +30,7 @@ fetch(`${api}/books/${book.id}`, {
       'Content-Type': 'application/json'
     },
     body: JSON.stringify({shelf})
-  }).then(res => res.json())
+  }).then(res => console.log(res.json()))
 
 
 export const search = (query, maxResults) =>

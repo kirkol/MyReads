@@ -53,7 +53,6 @@ groupBooks(books){
     console.log("BOOK ARRAY", bookArray)
     return bookArray;
   }
-  
 }
 
 render() {
@@ -71,6 +70,7 @@ render() {
    	<PageSearch
     shelfs={shelfs}
     books={this.state.books}
+	update={this.update}
     />
    )} />
 </div>

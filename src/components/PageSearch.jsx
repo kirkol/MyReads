@@ -1,34 +1,34 @@
 import React, {Component} from 'react'
 import {Link} from 'react-router-dom'
 import Book from './Book'
+import * as BooksAPI from '../BooksAPI'
 
 class PageSearch extends Component {
   
   state = {
-  	query: ""
+  	query: "",
+    result: []
   }
 
-  updateQuery = (query) => {
-  	this.setState(() => ({
-    	query: query
-    }))
-  }
+updateQuery = (query) => {
+  this.setState({
+    query: query
+  }, () =>  BooksAPI.search(this.state.query, 10)
+                .then(result => this.setState({
+    result: result
+  })))
+
+}
+  
+  
+  update = (book, shelf) => {
+	BooksAPI.update(book, shelf)
+}
 
   render(){
-    console.log("SEARCH", this.props.books)
     const books = this.props.books
     const query = this.state.query
-    
-    Object.keys(books).map((key) => (console.log(books[key].title)))
-    
-    const showingBooks = query === ''
-    	? ''
-    	: Object.keys(books)
-    		.filter((key) => (books[key].title == "The Linux Command Line" || books[key].title == "Needful Things"))
-    		.reduce( (res, key) => (res[key] = books[key], res), {} )
-    
-    console.log("FILTERED", showingBooks)
-    
+        
     return(
       <div className="search-books">
         <div className="search-books-bar">
@@ -44,14 +44,30 @@ class PageSearch extends Component {
         </div>
         <div className="search-books-results">
           <ol className="books-grid">
-            {Object.keys(showingBooks).map((b) => (
-            	<Book 
-                key={showingBooks[b].title}
-                shelfs={this.props.shelfs}
-                title={showingBooks[b].title}
-                authors={showingBooks[b].authors}
-                cover={showingBooks[b].imageLinks}/>
-            ))}
+            {console.log(this.state.result)}
+            {(Array.isArray(this.state.result) && (this.state.result))
+              ?
+              (this.state.result.map((book) =>
+              <Book
+               key={book.id}
+               shelfs={this.props.shelfs}
+               title={book.title}
+               authors={book.authors}
+               book={book}
+               update={this.props.update}
+              />                      
+              ))
+              :
+              ("")}
+             {//this.state.result.map((book) => 
+//             	<Book 
+//                  key={book.id}
+//                  shelfs={this.props.shelfs}
+//                  title={book.title}
+//                  authors={book.authors}
+//                  book={book}/>
+//              )
+            } 
           </ol>
         </div>
       </div>
