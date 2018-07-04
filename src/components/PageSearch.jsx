@@ -10,17 +10,39 @@ class PageSearch extends Component {
     result: []
   }
 
-updateQuery = (query) => {
-  this.setState({
-    query: query
-  }, () =>  BooksAPI.search(this.state.query, 10)
-                .then(result => this.setState({
-    result: result
-  })))
+//updateQuery = (query) => {
+//  this.setState({
+//    query: query
+//  }, () =>  BooksAPI.search(this.state.query, 10)
+//                .then(result => this.setState({
+//    result: result
+//  })))
+//}
 
+updateQuery = (query) => {
+	this.setState({
+    	query: query
+    }, () => BooksAPI.search(query, 30).then((booksResult) => {
+    	if(!!booksResult){
+        	if(booksResult.length>0){
+              const results = booksResult.map((book) => {
+                this.props.books.some((b) => {
+                	if(b.id === book.id){
+                    	book.shelf = b.shelf
+                      	return true
+                    }else{
+                    	book.shelf = "none"
+                      	return false
+                    }
+                })
+                return book
+              });
+              this.setState(() => ({result: results}))
+            }
+        }
+    }))
 }
-  
-  
+
   update = (book, shelf) => {
 	BooksAPI.update(book, shelf)
 }
@@ -44,10 +66,7 @@ updateQuery = (query) => {
         </div>
         <div className="search-books-results">
           <ol className="books-grid">
-            {console.log(this.state.result)}
-            {(Array.isArray(this.state.result) && (this.state.result))
-              ?
-              (this.state.result.map((book) =>
+            {this.state.result.map((book) =>
               <Book
                key={book.id}
                shelfs={this.props.shelfs}
@@ -56,18 +75,7 @@ updateQuery = (query) => {
                book={book}
                update={this.props.update}
               />                      
-              ))
-              :
-              ("")}
-             {//this.state.result.map((book) => 
-//             	<Book 
-//                  key={book.id}
-//                  shelfs={this.props.shelfs}
-//                  title={book.title}
-//                  authors={book.authors}
-//                  book={book}/>
-//              )
-            } 
+              )}
           </ol>
         </div>
       </div>

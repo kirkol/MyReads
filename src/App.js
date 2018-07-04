@@ -29,11 +29,29 @@ getAll(){
   });
 }
 
+//update = (book, shelf) => {
+//	BooksAPI.update(book, shelf)
+//  	.then((res) => {
+//      this.getAll()
+//    })
+//}
+
 update = (book, shelf) => {
-	BooksAPI.update(book, shelf)
-  	.then((res) => {
-      this.getAll()
+  console.log("robie update")
+  console.log("book", book)
+  console.log("shelf", shelf)
+  BooksAPI.update(book, shelf).then(() => {
+    book.shelf = shelf  
+    // bezpieczne uzycie setState dwa razy pod rzad (callback)
+    this.setState
+    (state => ({
+      books: state.books.filter(b => b.id !== book.id).concat(book)
     })
+     , this.setState
+    (state => ({
+      groupedBooks: this.groupBooks(state.books)
+    })))  
+  })
 }
 
 groupBooks(books){
@@ -45,6 +63,8 @@ groupBooks(books){
       	if(bookArray.hasOwnProperty(books[key].shelf)){
           //sprawdz dlugosc ciagu w obiekcie = bookArray[books[key].shelf].length
           bookArray[books[key].shelf][bookArray[books[key].shelf].length] = books[key]
+        }else if(books[key].shelf === "none"){
+          //nic nie rob
         }else{
           bookArray[books[key].shelf] = [books[key]]
         }
@@ -54,6 +74,7 @@ groupBooks(books){
 }
 
 render() {
+  console.log("GROUPED", this.state.groupedBooks)
   return (
   <div className="app">
    <Switch>

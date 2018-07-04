@@ -6,10 +6,9 @@ class Selector extends Component {
   }
   render(){
     const options = this.props.shelfs
-    
     return(
       <div className="book-shelf-changer">
-        <select onChange={(event)=>this.handleChange(event)} value="move">
+        <select onChange={(event)=>this.handleChange(event)} value={(this.props.book.shelf)?(this.props.book.shelf):("move")}>
           <option value="move" disabled>Move to...</option>
           {options.map((option) => (
           	<option key={option.replace(/\s+/g, '')} value={option.replace(/\s+/g, '')} >{option}</option>

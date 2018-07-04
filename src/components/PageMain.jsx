@@ -7,7 +7,6 @@ class PageMain extends Component {
 
   render(){
     const {shelfs, groupedBooks} = this.props
-
     return(
       <div className="list-books">
         <Header />
