@@ -10,15 +10,6 @@ class PageSearch extends Component {
     result: []
   }
 
-//updateQuery = (query) => {
-//  this.setState({
-//    query: query
-//  }, () =>  BooksAPI.search(this.state.query, 10)
-//                .then(result => this.setState({
-//    result: result
-//  })))
-//}
-
 updateQuery = (query) => {
 	this.setState({
     	query: query

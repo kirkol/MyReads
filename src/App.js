@@ -18,13 +18,13 @@ componentWillMount(){
 	this.getAll()
 }
 
-getAll(){
+getAll = () => {
   BooksAPI.getAll()
     .then((books) => {
-    const bookGouped = this.groupBooks(books)
+    const bookGrouped = this.groupBooks(books)
     this.setState(() => ({
     books: books,
-    groupedBooks: bookGouped
+    groupedBooks: bookGrouped
   }))
   });
 }
@@ -37,9 +37,6 @@ getAll(){
 //}
 
 update = (book, shelf) => {
-  console.log("robie update")
-  console.log("book", book)
-  console.log("shelf", shelf)
   BooksAPI.update(book, shelf).then(() => {
     book.shelf = shelf  
     // bezpieczne uzycie setState dwa razy pod rzad (callback)
@@ -74,7 +71,6 @@ groupBooks(books){
 }
 
 render() {
-  console.log("GROUPED", this.state.groupedBooks)
   return (
   <div className="app">
    <Switch>
@@ -83,6 +79,7 @@ render() {
       shelfs={shelfs}
       groupedBooks={this.state.groupedBooks}
       update={this.update}
+	  getall={this.getAll}
       />
      )} />
      <Route path='/search' render={() => (

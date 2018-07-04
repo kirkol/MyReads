@@ -4,7 +4,14 @@ import ButtonSearch from './ButtonSearch'
 import Bookshelf from './Bookshelf'
 
 class PageMain extends Component {
-
+  
+  constructor(props){
+  	super(props);
+    if(props.getall){
+    	props.getall()
+    }
+  }
+  
   render(){
     const {shelfs, groupedBooks} = this.props
     return(
