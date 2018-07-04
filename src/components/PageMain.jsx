@@ -6,9 +6,7 @@ import Bookshelf from './Bookshelf'
 class PageMain extends Component {
 
   render(){
-    const groupedBooks = this.props.groupedBooks
-    const shelfs = this.props.shelfs
-    console.log("MAIN PAGE AGAIN", groupedBooks)
+    const {shelfs, groupedBooks} = this.props
 
     return(
       <div className="list-books">

@@ -1,9 +1,9 @@
 import React from 'react'
 import PageMain from './components/PageMain'
 import PageSearch from './components/PageSearch'
-import {Route} from 'react-router-dom'
-import './App.css'
+import {Switch, Route} from 'react-router-dom'
 import * as BooksAPI from './BooksAPI'
+import './App.css'
 
 const shelfs = ["currentlyReading", "wantToRead", "read"]
 
@@ -26,7 +26,6 @@ getAll(){
     books: books,
     groupedBooks: bookGouped
   }))
-  console.log("API",this.state);
   });
 }
 
@@ -50,29 +49,29 @@ groupBooks(books){
           bookArray[books[key].shelf] = [books[key]]
         }
 	});
-    console.log("BOOK ARRAY", bookArray)
     return bookArray;
   }
 }
 
 render() {
-  console.log("RENDERUJE APA!")
   return (
   <div className="app">
-   <Route exact path='/' render={() => (
-    <PageMain
-    shelfs={shelfs}
-	groupedBooks={this.state.groupedBooks}
-	update={this.update}
-    />
-   )} />
-   <Route path='/search' render={() => (
-   	<PageSearch
-    shelfs={shelfs}
-    books={this.state.books}
-	update={this.update}
-    />
-   )} />
+   <Switch>
+     <Route exact path='/' render={() => (
+      <PageMain
+      shelfs={shelfs}
+      groupedBooks={this.state.groupedBooks}
+      update={this.update}
+      />
+     )} />
+     <Route path='/search' render={() => (
+      <PageSearch
+      shelfs={shelfs}
+      books={this.state.books}
+      update={this.update}
+      />
+     )} />
+</Switch>
 </div>
 )}}
 
